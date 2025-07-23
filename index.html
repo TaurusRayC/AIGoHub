@@ -109,6 +109,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 1rem 0;
+            width: 100%;
         }
         
         /* Mobile Controls - 移动端控制按钮 */
@@ -544,11 +545,15 @@
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .nav-links {
-                display: none;
+                display: none !important;
             }
             
             .mobile-controls {
-                display: flex;
+                display: flex !important;
+            }
+            
+            .nav {
+                position: relative;
             }
             
             .hero {
@@ -573,6 +578,40 @@
             
             .container {
                 padding: 0 15px;
+            }
+        }
+        
+        /* 额外的移动端媒体查询确保按钮显示 */
+        @media screen and (max-width: 768px) {
+            .mobile-controls {
+                display: flex !important;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .nav-links {
+                display: none !important;
+            }
+        }
+        
+        /* 确保在更小的屏幕上也显示 */
+        @media screen and (max-width: 480px) {
+            .mobile-controls {
+                display: flex !important;
+                align-items: center;
+                gap: 0.4rem;
+            }
+            
+            .mobile-controls .language-toggle {
+                font-size: 0.8rem;
+                min-width: 40px;
+                padding: 0.3rem 0.6rem;
+            }
+            
+            .mobile-controls .theme-toggle {
+                width: 32px;
+                height: 32px;
+                font-size: 0.85rem;
             }
         }
         
@@ -1073,12 +1112,12 @@
             if (currentLanguage === 'en') {
                 currentLanguage = 'zh';
                 langText.textContent = '中文';
-                langTextMobile.textContent = '中文';
+                if (langTextMobile) langTextMobile.textContent = '中文';
                 document.documentElement.lang = 'zh';
             } else {
                 currentLanguage = 'en';
                 langText.textContent = 'EN';
-                langTextMobile.textContent = 'EN';
+                if (langTextMobile) langTextMobile.textContent = 'EN';
                 document.documentElement.lang = 'en';
             }
             
@@ -1111,12 +1150,12 @@
             if (body.getAttribute('data-theme') === 'dark') {
                 body.removeAttribute('data-theme');
                 themeIcon.textContent = '🌙';
-                themeIconMobile.textContent = '🌙';
+                if (themeIconMobile) themeIconMobile.textContent = '🌙';
                 localStorage.setItem('theme', 'light');
             } else {
                 body.setAttribute('data-theme', 'dark');
                 themeIcon.textContent = '☀️';
-                themeIconMobile.textContent = '☀️';
+                if (themeIconMobile) themeIconMobile.textContent = '☀️';
                 localStorage.setItem('theme', 'dark');
             }
         }
@@ -1131,14 +1170,17 @@
             if (savedTheme === 'dark') {
                 document.body.setAttribute('data-theme', 'dark');
                 themeIcon.textContent = '☀️';
-                themeIconMobile.textContent = '☀️';
+                if (themeIconMobile) themeIconMobile.textContent = '☀️';
+            } else {
+                themeIcon.textContent = '🌙';
+                if (themeIconMobile) themeIconMobile.textContent = '🌙';
             }
 
             // Initialize language
             const langText = document.getElementById('lang-text');
             const langTextMobile = document.getElementById('lang-text-mobile');
             langText.textContent = 'EN';
-            langTextMobile.textContent = 'EN';
+            if (langTextMobile) langTextMobile.textContent = 'EN';
 
             // Load saved language
             const savedLanguage = localStorage.getItem('language');
@@ -1147,11 +1189,11 @@
                 
                 if (currentLanguage === 'zh') {
                     langText.textContent = '中文';
-                    langTextMobile.textContent = '中文';
+                    if (langTextMobile) langTextMobile.textContent = '中文';
                     document.documentElement.lang = 'zh';
                 } else {
                     langText.textContent = 'EN';
-                    langTextMobile.textContent = 'EN';
+                    if (langTextMobile) langTextMobile.textContent = 'EN';
                     document.documentElement.lang = 'en';
                 }
                 updateLanguage();
