@@ -123,6 +123,28 @@
         
 
         
+        /* Language Toggle */
+        .language-toggle {
+            background: var(--bg-tertiary);
+            border: none;
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            min-width: 50px;
+        }
+        
+        .language-toggle:hover {
+            background: var(--border-color);
+            transform: scale(1.05);
+        }
+        
         .nav-links {
             display: flex;
             list-style: none;
@@ -545,6 +567,11 @@
                 <li><a href="#categories" data-lang-key="nav.categories">Categories</a></li>
                 <li><a href="#about" data-lang-key="nav.about">About</a></li>
                 <li><a href="#contact" data-lang-key="nav.contact">Contact</a></li>
+                <li>
+                    <button class="language-toggle" onclick="toggleLanguage()" aria-label="Switch language">
+                        <span id="lang-text">EN</span>
+                    </button>
+                </li>
 
                 <li>
                     <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
@@ -853,6 +880,184 @@
     </footer>
 
     <script>
+        // Language translations
+        const translations = {
+            en: {
+                'nav.categories': 'Categories',
+                'nav.about': 'About',
+                'nav.contact': 'Contact',
+                'hero.title': 'Welcome to AIGoHub – Your Ultimate AI Tools Directory',
+                'hero.subtitle': 'Discover the latest and most powerful AI tools for writing, image generation, video creation, voice synthesis, productivity, and more. Whether you\'re a content creator, marketer, developer, or just exploring AI, AIGoHub is your trusted launchpad for smart productivity and creativity.',
+                'hero.cta': 'Explore AI Tools',
+                'search.title': 'Find Your Perfect AI Tool',
+                'search.placeholder': 'Search for AI tools, categories, or use cases...',
+                'categories.title': 'AI Tool Categories',
+                'categories.tools': 'Tools',
+                'categories.chat.title': 'AI Chat & Assistants',
+                'categories.chat.desc': 'Conversational AI assistants for writing, coding, translation, and everyday productivity tasks.',
+                'categories.writing.title': 'AI Writing & Content Creation',
+                'categories.writing.desc': 'AI-powered writing platforms for marketing content, copywriting, and enterprise writing solutions.',
+                'categories.image.title': 'Image Generation & Design',
+                'categories.image.desc': 'Create stunning visuals, artwork, logos, and graphics with advanced AI image generation platforms.',
+                'categories.video.title': 'Video & Audio Editing',
+                'categories.video.desc': 'Transform your ideas into engaging videos with AI-powered editing, generation, and avatar tools.',
+                'categories.voice.title': 'Voice Generation',
+                'categories.voice.desc': 'Generate realistic voices and high-quality voiceovers with advanced AI voice synthesis technology.',
+                'categories.web.title': 'AI Web & Branding Tools',
+                'categories.web.desc': 'AI-powered website builders and branding solutions for creating professional online presence.',
+                'tools.visit': 'Visit Tool',
+                'tools.chatgpt.desc': 'Conversational AI assistant for writing, coding, and translation',
+                'tools.claude.desc': 'Secure large language model by Anthropic',
+                'tools.notion.desc': 'AI assistant integrated in Notion for writing and summarizing',
+                'tools.grammarly.desc': 'AI writing assistant for grammar correction and polishing',
+                'tools.writesonic.desc': 'Multi-functional AI writing platform',
+                'tools.copyai.desc': 'AI platform focused on marketing content',
+                'tools.jasper.desc': 'AI writing assistant for enterprise teams',
+                'tools.midjourney.desc': 'Powerful AI art generation tool',
+                'tools.stable.desc': 'Open-source image generation model',
+                'tools.dalle.desc': 'Image generation tool by OpenAI',
+                'tools.looka.desc': 'AI logo and brand design platform',
+                'tools.runway.desc': 'AI video editing and generation tool',
+                'tools.pika.desc': 'Text-to-animation video tool',
+                'tools.heygen.desc': 'AI-generated avatar video platform',
+                'tools.descript.desc': 'Text-based video/audio editing tool with AI voice features',
+                'tools.synthesia.desc': 'AI avatar video creation platform',
+                'tools.lumen5.desc': 'Text-to-video content creation tool',
+                'tools.murf.desc': 'High-quality AI voiceover platform',
+                'tools.eleven.desc': 'Realistic voice synthesis and cloning',
+                'tools.durable.desc': 'AI-powered website builder',
+                'features.title': 'Why Choose AIGoHub?',
+                'features.curated.title': 'Curated Selection',
+                'features.curated.desc': 'Hand-picked AI tools tested and verified by our expert team for quality and reliability.',
+                'features.reviews.title': 'Detailed Reviews',
+                'features.reviews.desc': 'In-depth analysis, pricing information, and user reviews to help you make informed decisions.',
+                'features.updates.title': 'Latest Updates',
+                'features.updates.desc': 'Stay ahead with the newest AI tools and updates in the rapidly evolving AI landscape.',
+                'features.insights.title': 'Expert Insights',
+                'features.insights.desc': 'Get professional tips, tutorials, and best practices for maximizing AI tool effectiveness.',
+                'footer.description': 'Your trusted directory for discovering and exploring the world\'s best AI tools. Empowering creators, businesses, and innovators with cutting-edge AI technology.',
+                'footer.categories': 'Categories',
+                'footer.resources': 'Resources',
+                'footer.company': 'Company',
+                'footer.reviews': 'AI Tool Reviews',
+                'footer.guide': 'Getting Started Guide',
+                'footer.news': 'AI News & Updates',
+                'footer.practices': 'Best Practices',
+                'footer.faq': 'FAQ',
+                'footer.about': 'About Us',
+                'footer.contact': 'Contact',
+                'footer.privacy': 'Privacy Policy',
+                'footer.terms': 'Terms of Service',
+                'footer.submit': 'Submit a Tool',
+                'footer.copyright': '© 2025 AIGoHub. All rights reserved. Discover, explore, and innovate with AI.'
+            },
+            zh: {
+                'nav.categories': '分类',
+                'nav.about': '关于',
+                'nav.contact': '联系',
+                'hero.title': '欢迎来到 AIGoHub – 您的终极AI工具目录',
+                'hero.subtitle': '探索最新最强大的AI工具，包括写作、图像生成、视频创作、语音合成、生产力工具等。无论您是内容创作者、营销人员、开发者，还是仅仅在探索AI，AIGoHub都是您智能生产力和创造力的可信启动平台。',
+                'hero.cta': '探索AI工具',
+                'search.title': '找到您的完美AI工具',
+                'search.placeholder': '搜索AI工具、分类或使用场景...',
+                'categories.title': 'AI工具分类',
+                'categories.tools': '工具',
+                'categories.chat.title': 'AI聊天和助手',
+                'categories.chat.desc': '用于写作、编程、翻译和日常生产力任务的对话式AI助手。',
+                'categories.writing.title': 'AI写作和内容创作',
+                'categories.writing.desc': 'AI驱动的写作平台，用于营销内容、文案写作和企业写作解决方案。',
+                'categories.image.title': '图像生成和设计',
+                'categories.image.desc': '使用先进的AI图像生成平台创建精美的视觉效果、艺术作品、标志和图形。',
+                'categories.video.title': '视频和音频编辑',
+                'categories.video.desc': '使用AI驱动的编辑、生成和虚拟形象工具将您的想法转化为引人入胜的视频。',
+                'categories.voice.title': '语音生成',
+                'categories.voice.desc': '使用先进的AI语音合成技术生成逼真的声音和高质量的配音。',
+                'categories.web.title': 'AI网站和品牌工具',
+                'categories.web.desc': 'AI驱动的网站构建器和品牌解决方案，用于创建专业的在线存在。',
+                'tools.visit': '访问工具',
+                'tools.chatgpt.desc': '用于写作、编程和翻译的对话式AI助手',
+                'tools.claude.desc': 'Anthropic的安全大型语言模型',
+                'tools.notion.desc': '集成在Notion中用于写作和总结的AI助手',
+                'tools.grammarly.desc': '用于语法纠错和润色的AI写作助手',
+                'tools.writesonic.desc': '多功能AI写作平台',
+                'tools.copyai.desc': '专注于营销内容的AI平台',
+                'tools.jasper.desc': '面向企业团队的AI写作助手',
+                'tools.midjourney.desc': '强大的AI艺术生成工具',
+                'tools.stable.desc': '开源图像生成模型',
+                'tools.dalle.desc': 'OpenAI的图像生成工具',
+                'tools.looka.desc': 'AI标志和品牌设计平台',
+                'tools.runway.desc': 'AI视频编辑和生成工具',
+                'tools.pika.desc': '文本转动画视频工具',
+                'tools.heygen.desc': 'AI生成的虚拟形象视频平台',
+                'tools.descript.desc': '具有AI语音功能的基于文本的视频/音频编辑工具',
+                'tools.synthesia.desc': 'AI虚拟形象视频创作平台',
+                'tools.lumen5.desc': '文本转视频内容创作工具',
+                'tools.murf.desc': '高质量AI配音平台',
+                'tools.eleven.desc': '逼真的语音合成和克隆',
+                'tools.durable.desc': 'AI驱动的网站构建器',
+                'features.title': '为什么选择 AIGoHub？',
+                'features.curated.title': '精选推荐',
+                'features.curated.desc': '由我们的专家团队手工挑选、测试和验证的AI工具，确保质量和可靠性。',
+                'features.reviews.title': '详细评测',
+                'features.reviews.desc': '深入分析、价格信息和用户评价，帮助您做出明智的决定。',
+                'features.updates.title': '最新更新',
+                'features.updates.desc': '在快速发展的AI领域中，及时了解最新的AI工具和更新。',
+                'features.insights.title': '专家见解',
+                'features.insights.desc': '获得专业提示、教程和最佳实践，最大化AI工具的效果。',
+                'footer.description': '您发现和探索世界最佳AI工具的可信目录。为创作者、企业和创新者提供前沿AI技术支持。',
+                'footer.categories': '分类',
+                'footer.resources': '资源',
+                'footer.company': '公司',
+                'footer.reviews': 'AI工具评测',
+                'footer.guide': '入门指南',
+                'footer.news': 'AI新闻和更新',
+                'footer.practices': '最佳实践',
+                'footer.faq': '常见问题',
+                'footer.about': '关于我们',
+                'footer.contact': '联系我们',
+                'footer.privacy': '隐私政策',
+                'footer.terms': '服务条款',
+                'footer.submit': '提交工具',
+                'footer.copyright': '© 2025 AIGoHub. 保留所有权利。发现、探索并用AI创新。'
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        // Language toggle functionality
+        function toggleLanguage() {
+            const langText = document.getElementById('lang-text');
+            
+            if (currentLanguage === 'en') {
+                currentLanguage = 'zh';
+                langText.textContent = '中文';
+                document.documentElement.lang = 'zh';
+            } else {
+                currentLanguage = 'en';
+                langText.textContent = 'EN';
+                document.documentElement.lang = 'en';
+            }
+            
+            // Update all text content
+            updateLanguage();
+            localStorage.setItem('language', currentLanguage);
+        }
+
+        // Update language content
+        function updateLanguage() {
+            const elements = document.querySelectorAll('[data-lang-key]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                    if (element.tagName === 'INPUT') {
+                        element.placeholder = translations[currentLanguage][key];
+                    } else {
+                        element.textContent = translations[currentLanguage][key];
+                    }
+                }
+            });
+        }
+
         // Theme toggle functionality
         function toggleTheme() {
             const body = document.body;
@@ -878,6 +1083,25 @@
             if (savedTheme === 'dark') {
                 document.body.setAttribute('data-theme', 'dark');
                 themeIcon.textContent = '☀️';
+            }
+
+            // Initialize language
+            const langText = document.getElementById('lang-text');
+            langText.textContent = 'EN';
+
+            // Load saved language
+            const savedLanguage = localStorage.getItem('language');
+            if (savedLanguage && savedLanguage !== currentLanguage) {
+                currentLanguage = savedLanguage;
+                
+                if (currentLanguage === 'zh') {
+                    langText.textContent = '中文';
+                    document.documentElement.lang = 'zh';
+                } else {
+                    langText.textContent = 'EN';
+                    document.documentElement.lang = 'en';
+                }
+                updateLanguage();
             }
         });
         
